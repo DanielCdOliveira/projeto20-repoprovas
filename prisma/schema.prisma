@@ -9,3 +9,75 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+
+  @@map("users")
+}
+
+model Category {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  tests     Test[]
+
+  @@map("categories")
+}
+
+model Term {
+  id         Int          @id @default(autoincrement())
+  name       String
+  createdAt  DateTime     @default(now())
+  disciplines Discipline[]
+
+  @@map("terms")
+}
+
+model Teacher {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  createdAt         DateTime            @default(now())
+  TeacherDiscipline TeacherDiscipline[]
+
+  @@map("teachers")
+}
+
+model Discipline {
+  id                Int                 @id @default(autoincrement())
+  name              String
+  termId            Int
+  createdAt         DateTime            @default(now())
+  term              Term                @relation(fields: [termId], references: [id])
+  TeacherDiscipline TeacherDiscipline[]
+
+  @@map("disciplines")
+}
+
+model TeacherDiscipline {
+  id           Int        @id @default(autoincrement())
+  teacherId    Int
+  disciplineId Int
+  createdAt    DateTime   @default(now())
+  teacher      Teacher    @relation(fields: [teacherId], references: [id])
+  discipline   Discipline @relation(fields: [disciplineId], references: [id])
+  Test         Test[]
+
+  @@map("teachers-disciplines")
+}
+
+model Test {
+  id                  Int               @id @default(autoincrement())
+  name                String
+  pdfUrl              String
+  categoryId          Int
+  teacherDisciplineId Int
+  createdAt           DateTime          @default(now())
+  category            Category          @relation(fields: [categoryId], references: [id])
+  teacherDiscipline   TeacherDiscipline @relation(fields: [teacherDisciplineId], references: [id])
+
+  @@map("tests")
+}
