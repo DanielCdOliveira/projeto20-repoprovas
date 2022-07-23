@@ -4,6 +4,7 @@ import * as userService from "../services/userService.js"
 
 export async function signup(req: Request, res: Response) {
     const newUser = req.body
+    delete newUser.passwordConfirmation   
     await userService.createUser(newUser)
     res.sendStatus(201)    
 }
