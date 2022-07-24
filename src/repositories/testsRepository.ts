@@ -57,3 +57,16 @@ export async function getTestsByDiscipline() {
         }
     })
 }
+export async function getTestsByTeacher() {
+
+    return await prisma.teacherDiscipline.findMany({
+        include: {
+            discipline: {
+                include: {
+                    term: {}
+                },
+            }, teacher: {},
+            Test: { include: { category: {} } }
+        }
+    })
+}

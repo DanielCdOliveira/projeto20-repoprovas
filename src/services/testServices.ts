@@ -46,3 +46,6 @@ export async function insertTest(newTest: CreateTestData) {
 export async function getTestsByDiscipline() {
     return await testsRepository.getTestsByDiscipline()
 }
+export async function getTestsByTeacher() {
+    return await testsRepository.getTestsByTeacher()
+}
