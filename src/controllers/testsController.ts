@@ -11,5 +11,9 @@ export async function createTest(req: Request, res: Response) {
    await testsServices.insertTest({name, pdfUrl, categoryId, teacherDisciplineId})
    res.sendStatus(201)
 }
+export async function getTestsByDiscipline(req: Request, res: Response) {
+   const tests = await testsServices.getTestsByDiscipline()
+   res.status(200).send(tests)
+}
 
     

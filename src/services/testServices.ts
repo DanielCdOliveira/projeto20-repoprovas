@@ -43,3 +43,6 @@ export async function findTeacherDisciplineId(teacherId: number, disciplineId: n
 export async function insertTest(newTest: CreateTestData) {
     await testsRepository.insertTest(newTest)
 }
+export async function getTestsByDiscipline() {
+    return await testsRepository.getTestsByDiscipline()
+}

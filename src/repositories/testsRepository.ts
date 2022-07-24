@@ -1,6 +1,7 @@
+import { disciplines, teachers } from "../../prisma/data/data.js"
 import { prisma } from "../config/database.js"
 import { CreateTestData } from "../interfaces/interfaces.js"
-export async function findCategoryId(category: string) {    
+export async function findCategoryId(category: string) {
     return prisma.category.findFirst({
         where: {
             name: { equals: category, mode: 'insensitive' },
@@ -21,14 +22,38 @@ export async function findDisciplineId(discipline: string) {
         }
     })
 }
-export async function findTeacehrDisciplineId(teacherId: number, disciplineId:number) {
+export async function findTeacehrDisciplineId(teacherId: number, disciplineId: number) {
     return prisma.teacherDiscipline.findFirst({
         where: {
-           teacherId,
-           disciplineId
+            teacherId,
+            disciplineId
         }
     })
 }
-export async function insertTest(newTest : CreateTestData) {
-   await prisma.test.create({data:{...newTest}})
+export async function insertTest(newTest: CreateTestData) {
+    await prisma.test.create({ data: { ...newTest } })
+}
+export async function getTestsByDiscipline() {
+
+    return await prisma.term.findMany({
+        include: {
+            disciplines: {
+                include: {
+                    TeacherDiscipline: {
+                        include: {
+                            Test: {
+                                include: {
+                                    teacherDiscipline: {
+                                        include: {
+                                            teacher: {}
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    })
 }
