@@ -1,7 +1,7 @@
 import app from "../src/app.js"
 import supertest from "supertest"
 import { prisma } from "../src/config/database.js"
-import { generateUser, generateSession, generateWrongUsersEmail,generateWrongUsersṔassword } from "./factories/userFactory.js"
+import { generateUser, generateUserRegistered, generateSession, generateWrongUsersEmail, generateWrongUsersṔassword, testCreationCorrect, testIncorrectTeacher, testIncorrectDiscipline, testIncorrectCategory } from "./factories/userFactory.js"
 
 
 describe("User route test", () => {
@@ -34,7 +34,7 @@ describe("User route test", () => {
   });
 
   it("return 200 for login sucess", async () => {
-    const user = await generateSession()
+    const user = await generateUserRegistered()
     const result = await supertest(app).post("/sign-in").send(user)
     expect(result.status).toEqual(200)
   });
@@ -45,4 +45,42 @@ describe("User route test", () => {
     expect(result.status).toEqual(401)
   });
 
+});
+
+describe("Tests route test", () => {
+  beforeEach(async () => {
+    await prisma.test.deleteMany()
+  })
+  afterAll(async () => {
+    await prisma.$disconnect();
+  });
+  it("returns 201 for valid params to test creation", async () => {
+    const token = await generateSession()
+    const test = testCreationCorrect
+    const result = await supertest(app).post("/test/create").send(test).set('Authorization', "Bearer " + token)
+    expect(result.status).toEqual(201);
+  });
+  it("returns 401 for invalid token", async () => {
+    const test = testCreationCorrect
+    const result = await supertest(app).post("/test/create").send(test)
+    expect(result.status).toEqual(401);
+  });
+  it("returns 404 for invalid teacher", async () => {
+    const token = await generateSession()
+    const test = testIncorrectTeacher
+    const result = await supertest(app).post("/test/create").send(test).set('Authorization', "Bearer " + token)
+    expect(result.status).toEqual(404);
+  });
+  it("returns 404 for invalid discipline", async () => {
+    const token = await generateSession()
+    const test = testIncorrectDiscipline
+    const result = await supertest(app).post("/test/create").send(test).set('Authorization', "Bearer " + token)
+    expect(result.status).toEqual(404);
+  });
+  it("returns 404 for invalid category", async () => {
+    const token = await generateSession()
+    const test = testIncorrectCategory
+    const result = await supertest(app).post("/test/create").send(test).set('Authorization', "Bearer " + token)
+    expect(result.status).toEqual(404);
+  });
 });
