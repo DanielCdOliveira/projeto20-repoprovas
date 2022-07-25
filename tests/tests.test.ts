@@ -60,7 +60,7 @@ describe("Get tests route", () => {
         expect(result.status).toEqual(401)
     })
     it("returns 401 for invalid token,tests by discipline", async () => {
-        const result = await supertest(app).get("/tests/teacher")
+        const result = await supertest(app).get("/tests/discipline")
         expect(result.status).toEqual(401)
     })
 
