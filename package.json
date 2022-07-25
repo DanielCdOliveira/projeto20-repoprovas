@@ -5,7 +5,7 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "test": "dotenv -e .env.test prisma migrate dev &&  NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.test jest -i",
+    "test": "dotenv -e .env.test prisma migrate dev &&  NODE_OPTIONS=--experimental-vm-modules dotenv -e .env.test jest -- -i",
     "dev": "nodemon src/server.ts",
     "start": "node dist/app.js",
     "build": "tsc"

@@ -36,14 +36,15 @@ export async function generateUserRegistered() {
 }
 export async function generateSession() {
     const user ={ 
-        email: faker.internet.email(), 
+        email:  faker.internet.email(), 
         password: "1234567890",
         passwordConfirmation: "1234567890"
     }
     await supertest(app).post("/sign-up").send(user)
     delete user.passwordConfirmation
-    const result = await supertest(app).post("/sign-in").send(user)    
-    return (JSON.parse(result.text)).token
+    const result = await supertest(app).post("/sign-in").send(user)     
+    const {token} = (JSON.parse(result.text))    
+    return token
 }
 export const testCreationCorrect ={
     name: "miau",
@@ -56,7 +57,7 @@ export const testIncorrectTeacher ={
     name: "miau",
     pdfUrl:"https://www.youtube.com/watch?v=SGqg_ZzThDU",
     category: "Projeto",
-    teacher:faker.name.findName(),
+    teacher:"Wrong teacher",
     discipline: "React"
 }
 export const testIncorrectDiscipline ={
@@ -64,12 +65,12 @@ export const testIncorrectDiscipline ={
     pdfUrl:"https://www.youtube.com/watch?v=SGqg_ZzThDU",
     category: "Projeto",
     teacher:"Diego Pinho",
-    discipline: "Disciplina errada"
+    discipline: "Wrong Discipline"
 }
 export const testIncorrectCategory ={
     name: "miau",
     pdfUrl:"https://www.youtube.com/watch?v=SGqg_ZzThDU",
-    category: "Categoria errada",
+    category: "Wrong category",
     teacher:"Diego Pinho",
-    discipline: "Reactzao brabo"
+    discipline: "React"
 }

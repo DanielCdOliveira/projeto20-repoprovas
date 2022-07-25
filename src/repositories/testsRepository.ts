@@ -1,4 +1,3 @@
-import { disciplines, teachers } from "../../prisma/data/data.js"
 import { prisma } from "../config/database.js"
 import { CreateTestData } from "../interfaces/interfaces.js"
 export async function findCategoryId(category: string) {
