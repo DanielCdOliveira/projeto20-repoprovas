@@ -101,21 +101,23 @@ npm install
 
 Finalizado o processo, é só inicializar o servidor:
 
-- Para subir a aplicação em ambiente de desenvolvimento:
+> Para subir a aplicação em ambiente de desenvolvimento:
 ```
 npm run dev
 ```
 
-- Para subir a aplicação de testes de integração:
+> Para subir a aplicação de testes de integração:
+- é necessario criar um arquivo **.env.test** para rodar esse comando
 ```
 npm run test
 ```
 
-- Para rodar a build do projeto com typescript:
+> Para rodar a build do projeto com typescript:
+
 ```
 npm run build
 ```
-- Para subir a aplicação após o build:
+> Para subir a aplicação após o build:
 ```
 npm run start
 ```
