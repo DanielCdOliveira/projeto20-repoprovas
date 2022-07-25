@@ -14,6 +14,8 @@ describe("Tests creation route", () => {
     });
     it("returns 201 for valid params to test creation", async () => {
         const token = await generateSession()
+        await generateSession()
+        await generateSession()
         const test = testCreationCorrect
         const result = await supertest(app).post("/test/create").send(test).set('Authorization', "Bearer " + token)
         expect(result.status).toEqual(201);
